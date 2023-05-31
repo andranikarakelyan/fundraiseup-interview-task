@@ -7,12 +7,20 @@
     "postinstall": "npm run build",
     "build": "tsc",
     "start:app": "node dist/app.js",
-    "start:sync": "node dist/sync.js"
+    "start:sync": "node dist/sync.js",
+    "dev:app": "npm run build && npm run start:app",
+    "dev:sync": "npm run build && npm run start:sync"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^20.2.5",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "dotenv": "^16.1.2",
+    "mongodb": "^5.5.0"
   }
 }
