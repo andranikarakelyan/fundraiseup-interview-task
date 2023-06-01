@@ -20,17 +20,16 @@ import {faker} from "@faker-js/faker";
         when after any error app.ts will crash and 200ms is delay between "real" insertions.
         During the interview I can talk about other cases and solutions.
       */
-      await DbClient.customers_collection.insertMany( users );
+      await DbClient.customers_collection.insertMany(users);
       added_cnt += users.length;
 
       process.stdout.moveCursor(0, -1)
       process.stdout.clearLine(0);
-      process.stdout.write(`Added ${ added_cnt } users\n`);
+      process.stdout.write(`Added ${added_cnt} users\n`);
 
     }
 
   } catch (err) {
-    process.stdout.clearLine(0);
     console.error('App error', err);
     process.exit(1);
   }

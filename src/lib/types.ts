@@ -4,11 +4,11 @@ export interface IUserData {
   email: string,
   address: {
     line1: string,
-    line2:string,
-    postcode:string,
-    city:string,
-    state:string,
-    country:string,
+    line2: string,
+    postcode: string,
+    city: string,
+    state: string,
+    country: string,
   },
   createdAt: Date,
 }

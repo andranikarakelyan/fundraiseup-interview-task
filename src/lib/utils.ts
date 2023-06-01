@@ -1,4 +1,4 @@
-import {IUserData} from "./types";
+import {IAnonimisedUserData, IUserData} from "./types";
 import {faker} from '@faker-js/faker';
 
 export function generateFakeUsersData(count: number = 1): Array<IUserData> {
@@ -16,6 +16,25 @@ export function generateFakeUsersData(count: number = 1): Array<IUserData> {
       country: faker.location.country(),
     },
     createdAt: new Date(),
+  }));
+
+}
+
+export function anonymizeUsersData(users: Array<IUserData>): Array<IAnonimisedUserData> {
+
+  return users.map(u => ({
+    firstName: faker.string.alphanumeric({length: 8}),
+    lastName: faker.string.alphanumeric({length: 8}),
+    email: faker.string.alphanumeric({length: 8}) + u.email.slice(u.email.lastIndexOf('@')),
+    address: {
+      line1: faker.string.alphanumeric({length: 8}),
+      line2: faker.string.alphanumeric({length: 8}),
+      postcode: faker.string.alphanumeric({length: 8}),
+      state: u.address.state,
+      city: u.address.city,
+      country: u.address.country,
+    },
+    createdAt: u.createdAt,
   }));
 
 }

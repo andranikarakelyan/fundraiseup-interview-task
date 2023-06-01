@@ -14,5 +14,8 @@ npm run start:app
 
 # Step 2.2: Start sync.ts
 npm run start:sync
+
+# Step 2.3: Start sync.ts in "full reindex" mode
+npm run start:sync -- --full-reindex
 ```
 
