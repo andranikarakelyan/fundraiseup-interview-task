@@ -9,13 +9,17 @@
     "start:app": "node dist/app.js",
     "start:sync": "node dist/sync.js",
     "dev:app": "npm run build && npm run start:app",
-    "dev:sync": "npm run build && npm run start:sync"
+    "dev:sync": "npm run build && npm run start:sync",
+    "prettier": "prettier --write \"src/**/*.ts\"",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.2.5",
+    "husky": "^8.0.3",
+    "prettier": "^2.8.8",
     "typescript": "^5.0.4"
   },
   "dependencies": {
