@@ -2,7 +2,7 @@ import { IUserData } from "./types";
 import { faker } from "@faker-js/faker";
 import { WithId } from "mongodb";
 
-export function generateFakeUsersData(count: number = 1): Array<IUserData> {
+export function generateFakeUsersData(count: number = 1): IUserData[] {
   return Array(count)
     .fill(0)
     .map(() => ({
@@ -12,18 +12,18 @@ export function generateFakeUsersData(count: number = 1): Array<IUserData> {
       address: {
         line1: faker.location.streetAddress(),
         line2: faker.location.secondaryAddress(),
-        postcode: faker.location.zipCode(),
-        state: faker.location.state(),
+        postcode: faker.location.zipCode().split("-")[0],
+        state: faker.location.state({ abbreviated: true }),
         city: faker.location.city(),
-        country: faker.location.country(),
+        country: faker.location.countryCode(),
       },
       createdAt: new Date(),
     }));
 }
 
 export function anonymizeUsersData(
-  users: Array<WithId<IUserData>>
-): Array<WithId<IUserData>> {
+  users: WithId<IUserData>[]
+): WithId<IUserData>[] {
   return users.map((u) => ({
     _id: u._id,
     firstName: faker.string.alphanumeric({ length: 8 }),

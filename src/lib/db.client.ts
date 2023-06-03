@@ -12,13 +12,7 @@ export class DbClient {
     if (!DB_URI) throw new Error("Environment variable DB_URI is required");
 
     console.log(`Connecting to MongoDB...`);
-    const client = new MongoClient(DB_URI, {
-      serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-      },
-    });
+    const client = new MongoClient(DB_URI);
     await client.connect();
     const db = client.db();
     this.customers_collection = db.collection("customers");
