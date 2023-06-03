@@ -1,8 +1,9 @@
 import { IUserData } from "./types";
 import { faker } from "@faker-js/faker";
-import { WithId } from "mongodb";
 
-export function generateFakeUsersData(count: number = 1): IUserData[] {
+export function generateFakeUsersData(
+  count: number = 1
+): Omit<IUserData, "_id">[] {
   return Array(count)
     .fill(0)
     .map(() => ({
@@ -21,9 +22,7 @@ export function generateFakeUsersData(count: number = 1): IUserData[] {
     }));
 }
 
-export function anonymizeUsersData(
-  users: WithId<IUserData>[]
-): WithId<IUserData>[] {
+export function anonymizeUsersData(users: IUserData[]): IUserData[] {
   return users.map((u) => ({
     _id: u._id,
     firstName: faker.string.alphanumeric({ length: 8 }),

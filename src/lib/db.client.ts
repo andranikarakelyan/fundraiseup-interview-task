@@ -1,10 +1,10 @@
-import { Collection, MongoClient, ServerApiVersion, WithId } from "mongodb";
+import { Collection, MongoClient } from "mongodb";
 import * as dotenv from "dotenv";
 import { IUserData } from "./types";
 
 export class DbClient {
-  public static customers_collection: Collection<WithId<IUserData>>;
-  public static customers_anonymised_collection: Collection<WithId<IUserData>>;
+  public static customers_collection: Collection<IUserData>;
+  public static customers_anonymised_collection: Collection<IUserData>;
 
   static async connect() {
     dotenv.config();

@@ -1,4 +1,7 @@
+import { ObjectId } from "mongodb";
+
 export interface IUserData {
+  _id: ObjectId;
   firstName: string;
   lastName: string;
   email: string;

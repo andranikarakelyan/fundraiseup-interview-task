@@ -11,23 +11,18 @@ export class TasksBatchExecutor<ArgType> {
   }
 
   public addTasks(args: ArgType[]) {
-    if (!this.__timer) {
-      throw new Error("You need to start");
-    }
+    if (!this.__timer) throw new Error("You need to start");
+
     this.__queue.push(...args);
     if (this.__queue.length >= this.CHUNK_SIZE) {
-      while (this.__queue.length >= this.CHUNK_SIZE) {
-        this.__execTasks();
-      }
       this.stop();
+      while (this.__queue.length >= this.CHUNK_SIZE) this.__execTasks();
       this.start();
     }
   }
 
   public start(): this {
-    if (this.__timer) {
-      throw new Error("Already started");
-    }
+    if (this.__timer) throw new Error("Already started");
 
     this.__timer = setInterval(this.__execTasks.bind(this), 1000);
     return this;
@@ -37,16 +32,14 @@ export class TasksBatchExecutor<ArgType> {
     if (this.__timer) {
       clearInterval(this.__timer);
       this.__timer = null;
-    } else {
-      throw new Error("Not started");
-    }
+    } else throw new Error("Not started");
+
     return this;
   }
 
   private __execTasks() {
-    if (this.__queue.length === 0) {
-      return;
-    }
+    if (this.__queue.length === 0) return;
+
     this.__batch_handler(this.__queue.splice(0, this.CHUNK_SIZE)).catch(
       (err) => {
         console.error("Error during batch exec tasks", err);

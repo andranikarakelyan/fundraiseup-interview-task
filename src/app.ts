@@ -1,7 +1,6 @@
 import { DbClient } from "./lib/db.client";
 import { generateFakeUsersData, sleep } from "./lib/utils";
 import { faker } from "@faker-js/faker";
-import { WithId } from "mongodb";
 import { IUserData } from "./lib/types";
 
 async function main() {
@@ -21,9 +20,7 @@ async function main() {
       in this case I prefer to use this solution,
       when after any error app.ts will crash and 200ms is delay between "real" insertions.
     */
-    await DbClient.customers_collection.insertMany(
-      users as WithId<IUserData>[]
-    );
+    await DbClient.customers_collection.insertMany(users as IUserData[]);
     added_cnt += users.length;
 
     process.stdout.moveCursor(0, -1);
