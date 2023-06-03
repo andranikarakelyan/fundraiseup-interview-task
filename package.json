@@ -10,7 +10,7 @@
     "start:sync": "node dist/sync.js",
     "dev:app": "npm run build && npm run start:app",
     "dev:sync": "npm run build && npm run start:sync",
-    "prettier": "prettier --write \"src/**/*.ts\"",
+    "prettier": "prettier --check \"src/**/*.ts\"",
     "prepare": "husky install"
   },
   "keywords": [],

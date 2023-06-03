@@ -12,5 +12,3 @@ export interface IUserData {
   };
   createdAt: Date;
 }
-
-export type IAnonimisedUserData = IUserData;
