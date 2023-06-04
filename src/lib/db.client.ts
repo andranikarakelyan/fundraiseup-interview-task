@@ -1,10 +1,11 @@
 import { Collection, MongoClient } from "mongodb";
 import * as dotenv from "dotenv";
-import { IUserData } from "./types";
+import { ICursorData, IUserData } from "./types";
 
 export class DbClient {
   public static customers_collection: Collection<IUserData>;
   public static customers_anonymised_collection: Collection<IUserData>;
+  public static cursors: Collection<ICursorData>;
 
   static async connect() {
     dotenv.config();
@@ -19,6 +20,7 @@ export class DbClient {
     this.customers_anonymised_collection = db.collection(
       "customers_anonymised"
     );
+    this.cursors = db.collection("cursors");
 
     console.log("Successfully connected to MongoDB");
   }

@@ -1,6 +1,6 @@
 import { DbClient } from "./lib/db.client";
 import { anonymizeUsersData } from "./lib/utils";
-import { ChangeStreamInsertDocument, MongoError } from "mongodb";
+import { ChangeStreamInsertDocument, MongoError, ObjectId } from "mongodb";
 import { TasksBatchExecutor } from "./lib/TasksBatchExecutor";
 import { IUserData } from "./lib/types";
 
@@ -29,24 +29,35 @@ async function main() {
       }
     }).start();
 
-    const change_stream = DbClient.customers_collection.watch([
-      { $match: { operationType: "insert" } },
-    ]);
+    const cursor = await DbClient.cursors.findOne({
+      name: "customers_insert",
+    });
+
+    const change_stream = DbClient.customers_collection.watch(
+      [{ $match: { operationType: "insert" } }],
+      {
+        resumeAfter: cursor?.resume_token,
+      }
+    );
     change_stream.on(
       "change",
       (event: ChangeStreamInsertDocument<IUserData>) => {
         tbe.addTasks([event.fullDocument]);
+        DbClient.cursors
+          .updateOne(
+            { name: "customers_insert" },
+            {
+              $set: {
+                resume_token: event._id as ObjectId | undefined,
+              },
+            },
+            { upsert: true }
+          )
+          .catch((err) => {
+            console.error("error during saving resume token", err);
+          });
       }
     );
-
-    console.log("Full reindexing of unprocessed data ....");
-    fullReindex()
-      .then(() => {
-        console.log("Unprocessed data successfully processed");
-      })
-      .catch((err) => {
-        console.error("Error during processing unprocessed data", err);
-      });
   }
 }
 

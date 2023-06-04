@@ -15,3 +15,8 @@ export interface IUserData {
   };
   createdAt: Date;
 }
+
+export interface ICursorData {
+  name: string;
+  resume_token: ObjectId;
+}
